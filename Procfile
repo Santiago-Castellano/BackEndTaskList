@@ -1,0 +1,1 @@
+web: gunicorn BackEndTaskList.wsgi --log-file -
