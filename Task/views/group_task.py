@@ -6,13 +6,12 @@ from rest_framework.response import Response
 
 from Task.models import GroupTask
 from Task.serializers import GroupTaskSerializer
-from Task.views.helps import Message, permission_denied
+from Task.views.helps import Message
 
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
 def create(request):
-
 	group_task = GroupTask(user=request.user)
 	serializer = GroupTaskSerializer(group_task, data=request.data)
 	data = {}
@@ -28,10 +27,13 @@ def create(request):
 @api_view(['GET', ])
 @permission_classes((IsAuthenticated, ))
 def detail(request,id):
-
 	try:
 		group_task = GroupTask.objects.get(id=id)
 	except GroupTask.DoesNotExist:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+
+	user = request.user
+	if group_task.user != user:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 
 	serializer = GroupTaskSerializer(group_task)
@@ -42,7 +44,6 @@ def detail(request,id):
 @api_view(['PUT',])
 @permission_classes((IsAuthenticated, ))
 def update(request, id):
-
 	try:
 		 group_task= GroupTask.objects.get(id=id)
 	except GroupTask.DoesNotExist:
@@ -50,7 +51,7 @@ def update(request, id):
 
 	user = request.user
 	if group_task.user != user:
-		return Response({'response': permission_denied('edit')}) 
+		return Response(status=status.HTTP_404_NOT_FOUND)
 		
 	serializer = GroupTaskSerializer(group_task, data=request.data)
 	data = {}
@@ -67,7 +68,6 @@ def update(request, id):
 @api_view(['DELETE',])
 @permission_classes((IsAuthenticated, ))
 def delete(request,id):
-
 	try:
 		group_task = GroupTask.objects.get(id=id)
 	except GroupTask.DoesNotExist:
@@ -75,7 +75,7 @@ def delete(request,id):
 
 	user = request.user
 	if group_task.user != user:
-		return Response({'response':permission_denied('delete')}) 
+		return Response(status=status.HTTP_404_NOT_FOUND)
 
 	operation = group_task.delete()
 	data = {}

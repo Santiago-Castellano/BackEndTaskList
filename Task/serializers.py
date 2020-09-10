@@ -5,5 +5,5 @@ class GroupTaskSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = GroupTask
-        fields = [ 'name' ]
+        fields = [ 'id','name' ]
         
