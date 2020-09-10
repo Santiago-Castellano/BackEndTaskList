@@ -1,18 +1,17 @@
 from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.decorators import api_view,permission_classes
 from rest_framework.authtoken.models import Token
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
-from Task.views.helps import Message,permission_denied
+from rest_framework.response import Response
 
-
-from Task.serializers import GroupTaskSerializer
 from Task.models import GroupTask
+from Task.serializers import GroupTaskSerializer
+from Task.views.helps import Message, permission_denied
 
 
 @api_view(['POST'])
 @permission_classes((IsAuthenticated, ))
-def create_group_task(request):
+def create(request):
 
 	group_task = GroupTask(user=request.user)
 	serializer = GroupTaskSerializer(group_task, data=request.data)
@@ -28,7 +27,7 @@ def create_group_task(request):
 
 @api_view(['GET', ])
 @permission_classes((IsAuthenticated, ))
-def detail_group_task(request,id):
+def detail(request,id):
 
 	try:
 		group_task = GroupTask.objects.get(id=id)
@@ -42,7 +41,7 @@ def detail_group_task(request,id):
 
 @api_view(['PUT',])
 @permission_classes((IsAuthenticated, ))
-def update_group_task(request, id):
+def update(request, id):
 
 	try:
 		 group_task= GroupTask.objects.get(id=id)
@@ -67,7 +66,7 @@ def update_group_task(request, id):
 
 @api_view(['DELETE',])
 @permission_classes((IsAuthenticated, ))
-def delete_group_task(request,id):
+def delete(request,id):
 
 	try:
 		group_task = GroupTask.objects.get(id=id)
