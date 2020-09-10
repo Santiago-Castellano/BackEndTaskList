@@ -1,11 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-# Create your models here.
-
-class GroupTask(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    name = models.CharField(max_length=350)
-
+from GroupTask.models import GroupTask
 
 class TypeTask(models.Model):
     group = models.ForeignKey(GroupTask,on_delete=models.CASCADE)

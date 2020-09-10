@@ -4,9 +4,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
-from Task.models import GroupTask
-from Task.serializers import GroupTaskSerializer
-from Task.views.helps import Message
+from GroupTask.models import GroupTask
+from GroupTask.serializers import GroupTaskSerializer
+from GroupTask.helps import Message
 
 
 @api_view(['POST'])
