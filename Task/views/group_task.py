@@ -1,4 +1,5 @@
-from rest_framework import status
+from django.shortcuts import get_object_or_404
+from rest_framework import status, viewsets
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAuthenticated
@@ -7,6 +8,7 @@ from rest_framework.response import Response
 from Task.models import GroupTask
 from Task.serializers import GroupTaskSerializer
 from Task.views.helps import Message
+
 
 
 @api_view(['POST'])
@@ -25,11 +27,8 @@ def create(request):
 
 @api_view(['GET', ])
 @permission_classes((IsAuthenticated, ))
-def detail(request,id):
-	try:
-		group_task = GroupTask.objects.get(id=id)
-	except GroupTask.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
+def detail(request,pk):
+	group_task = get_object_or_404(GroupTask,pk=pk)
 
 	user = request.user
 	if group_task.user != user:
@@ -42,11 +41,8 @@ def detail(request,id):
 
 @api_view(['PUT',])
 @permission_classes((IsAuthenticated, ))
-def update(request, id):
-	try:
-		 group_task= GroupTask.objects.get(id=id)
-	except GroupTask.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
+def update(request, pk):
+	group_task = get_object_or_404(GroupTask,pk=pk)
 
 	user = request.user
 	if group_task.user != user:
@@ -66,11 +62,8 @@ def update(request, id):
 
 @api_view(['DELETE',])
 @permission_classes((IsAuthenticated, ))
-def delete(request,id):
-	try:
-		group_task = GroupTask.objects.get(id=id)
-	except GroupTask.DoesNotExist:
-		return Response(status=status.HTTP_404_NOT_FOUND)
+def delete(request,pk):
+	group_task = get_object_or_404(GroupTask,pk=pk)
 
 	user = request.user
 	if group_task.user != user:

@@ -46,7 +46,7 @@ class GroupTaskTestCase(APITestCase):
             name="group task"
         )
         group.save()
-        response = self.client.get(reverse("detail_group_task",kwargs={"id":group.id}))
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_200_OK)
 
     def test_detail_group_task_authenticated_not_found(self):
@@ -55,7 +55,7 @@ class GroupTaskTestCase(APITestCase):
             name="group task"
         )
         group.save()
-        response = self.client.get(reverse("detail_group_task",kwargs={"id":0}))
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":0}))
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
     
     def test_detail_group_task_authenticated_not_have_permits(self):
@@ -65,7 +65,7 @@ class GroupTaskTestCase(APITestCase):
             name="group task new user"
         )
         group.save()
-        response = self.client.get(reverse("detail_group_task",kwargs={"id":group.id}))
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
     
     def test_detail_group_task_un_authenticated(self):
@@ -75,7 +75,7 @@ class GroupTaskTestCase(APITestCase):
         )
         group.save()
         self.client.force_authenticate(user=None)
-        response = self.client.get(reverse("detail_group_task",kwargs={"id":group.id}))
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
     #Delete
@@ -85,7 +85,7 @@ class GroupTaskTestCase(APITestCase):
             name="group task"
         )
         group.save()
-        response = self.client.delete(reverse("delete_group_task",kwargs={"id":group.id}))
+        response = self.client.delete(reverse("delete_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_200_OK)
 
     def test_delete_group_task_authenticated_not_found(self):
@@ -94,7 +94,7 @@ class GroupTaskTestCase(APITestCase):
             name="group task"
         )
         group.save()
-        response = self.client.delete(reverse("delete_group_task",kwargs={"id":0}))
+        response = self.client.delete(reverse("delete_group_task",kwargs={"pk":0}))
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
     
     def test_delete_group_task_authenticated_not_have_permits(self):
@@ -104,7 +104,7 @@ class GroupTaskTestCase(APITestCase):
             name="group task new user"
         )
         group.save()
-        response = self.client.delete(reverse("delete_group_task",kwargs={"id":group.id}))
+        response = self.client.delete(reverse("delete_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
     
     def test_delete_group_task_un_authenticated(self):
@@ -114,7 +114,7 @@ class GroupTaskTestCase(APITestCase):
         )
         group.save()
         self.client.force_authenticate(user=None)
-        response = self.client.delete(reverse("delete_group_task",kwargs={"id":group.id}))
+        response = self.client.delete(reverse("delete_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
     #UPDATE
@@ -127,7 +127,7 @@ class GroupTaskTestCase(APITestCase):
         data = {
             "name":"group task edit"
         }
-        response = self.client.put(reverse("update_group_task",kwargs={"id":group.id}),data)
+        response = self.client.put(reverse("update_group_task",kwargs={"pk":group.pk}),data)
         self.assertEqual(response.status_code,status.HTTP_200_OK)
 
     def test_update_group_task_authenticated_not_found(self):
@@ -139,7 +139,7 @@ class GroupTaskTestCase(APITestCase):
         data = {
             "name":"group task edit"
         }
-        response = self.client.put(reverse("update_group_task",kwargs={"id":0}),data)
+        response = self.client.put(reverse("update_group_task",kwargs={"pk":0}),data)
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
     
     def test_delete_group_task_authenticated_not_have_permits(self):
@@ -152,7 +152,7 @@ class GroupTaskTestCase(APITestCase):
         data = {
             "name":"group task edit"
         }
-        response = self.client.put(reverse("update_group_task",kwargs={"id":group.id}),data)
+        response = self.client.put(reverse("update_group_task",kwargs={"pk":group.pk}),data)
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
     
     def test_update_group_task_authenticated_and_not_have_data(self):
@@ -164,7 +164,7 @@ class GroupTaskTestCase(APITestCase):
         data = {
             "name":"group task edit"
         }
-        response = self.client.put(reverse("update_group_task",kwargs={"id":group.id}))
+        response = self.client.put(reverse("update_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_400_BAD_REQUEST)
 
     def test_update_group_task_un_authenticated(self):
@@ -174,6 +174,6 @@ class GroupTaskTestCase(APITestCase):
         )
         group.save()
         self.client.force_authenticate(user=None)
-        response = self.client.put(reverse("update_group_task",kwargs={"id":group.id}))
+        response = self.client.put(reverse("update_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 

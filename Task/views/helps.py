@@ -5,3 +5,4 @@ class Message(Enum):
     ERROR = 'error'
     DELETE_SUCCESS = 'deleted'
     UPDATE_SUCCESS = 'updated'
+    
