@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     #My apps
     'Account',
     'Common',
-    'Task'
+    'Task',
 ]
 
 

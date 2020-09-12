@@ -7,4 +7,5 @@ urlpatterns = [
     path('group/update/<int:id>',group_task.update,name='update_group_task'),
     path('group/detail/<int:id>',group_task.detail,name='detail_group_task'),
     path('group/delete/<int:id>',group_task.delete,name='delete_group_task'),
+
 ]
