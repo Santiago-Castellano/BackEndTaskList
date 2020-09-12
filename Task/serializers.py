@@ -8,9 +8,8 @@ class GroupTaskSerializer(serializers.ModelSerializer):
         fields = [ 'id','name' ]
 
 class TypeTaskSerializer(serializers.ModelSerializer):
-    
+    group = GroupTaskSerializer(read_only= True)
     class Meta:
         model = TypeTask
-        fields = ['id', 'name', 'color', 'group__id']
-        read_only_fields = ['group__id']
+        fields = ['id', 'name', 'color', 'group']
         

@@ -10,6 +10,8 @@ from Task.models import GroupTask
 from Task.serializers import GroupTaskSerializer
 from Task.views.group_task import create, delete, detail, update
 
+from Task.models import TypeTask
+
 
 class GroupTaskTestCase(APITestCase):
 
