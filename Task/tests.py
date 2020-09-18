@@ -6,11 +6,8 @@ from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.test import APITestCase
 
-from Task.models import GroupTask
-from Task.serializers import GroupTaskSerializer
-from Task.views.group_task import create, delete, detail, update
-
-from Task.models import TypeTask
+from Task.models import GroupTask, TypeTask
+from Task.serializers import GroupTaskSerializer, TypeTaskSerializer
 
 
 class GroupTaskTestCase(APITestCase):
@@ -177,3 +174,32 @@ class GroupTaskTestCase(APITestCase):
         response = self.client.put(reverse("update_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
 
+
+
+
+class TypeTaskTestCase(APITestCase):
+
+    def setUp(self):
+        self.user = User.objects.create_user(username="user", password="pass-123456")
+        self.token = Token.objects.get(user=self.user).key
+        self.api_authentication()
+        
+
+    def api_authentication(self):
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.token}")
+    
+    #Create
+    def test_create_type_task_authenticated(self):
+        group = GroupTask(
+            user=self.user,
+            name="group task"
+        )
+        group.save()
+        data = {
+            "name":"firs task",
+            "color":"red",
+        }
+        response = self.client.post(reverse("create_type_task",kwargs={"pk_group":group.pk}),data)
+        self.assertEqual(response.status_code,status.HTTP_201_CREATED)
+    
+   
