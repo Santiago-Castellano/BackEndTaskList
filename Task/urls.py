@@ -20,7 +20,6 @@ urlpatterns = [
     #Task
     path('task/create/<int:pk_group>/<int:pk_type>' ,task.create,name='create_task'),
     path('task/update/<int:pk>'                     ,task.update,name='update_task'),
-    path('task/detail/<int:pk>'                     ,task.detail,name='detail_task'),
     path('task/delete/<int:pk>'                     ,task.delete,name='delete_task'),
 
 ]

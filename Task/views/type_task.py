@@ -73,7 +73,7 @@ def delete(request,pk):
 	if type_task.group.user != user:
 		return Response(status=status.HTTP_404_NOT_FOUND)
 
-	operation = group_task.delete()
+	operation = type_task.delete()
 	data = {}
 
 	if operation:

@@ -259,3 +259,18 @@ class TypeTaskTestCase(APITestCase):
         response = self.client.get(reverse("detail_group_task",kwargs={"pk":group.pk}))
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
    
+
+   #UPDATE
+    def test_update_type_task_authenticated(self):
+        type_task = TypeTask(
+            group=self.group,
+            color="red",
+            name="tipo rojo"
+        )
+        type_task.save()
+        data = {
+            "name":"tipo azul",
+            "color":"blue"
+        }
+        response = self.client.put(reverse("update_type_task",kwargs={"pk":type_task.pk}),data)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)

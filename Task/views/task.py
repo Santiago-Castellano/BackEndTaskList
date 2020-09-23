@@ -61,7 +61,7 @@ def delete(request, pk):
     operation = task.delete()
     data = {}
 
-   if operation:
+    if operation:
         data['response'] = Message.DELETE_SUCCESS.value
 
-	return Response(data=data)
+    return Response(data=data)
