@@ -307,4 +307,46 @@ class TypeTaskTestCase(APITestCase):
         }
         response = self.client.put(reverse("update_type_task",kwargs={"pk":type_task.pk}),data)
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
+
+    #DELETE
+    def test_delete_type_task_authenticated(self):
+        type_task = TypeTask(
+            name="group task",
+            group=self.group,
+            color="red"
+            
+        )
+        type_task.save()
+        response = self.client.delete(reverse("delete_type_task",kwargs={"pk":type_task.pk}))
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+   
+    def test_delete_type_task_authenticated_not_found(self):
+        response = self.client.delete(reverse("delete_type_task",kwargs={"pk":0}))
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
     
+    def test_delete_group_task_authenticated_not_have_permits(self):
+        new_user = User.objects.create_user(username="new_user", password="pass-123456")
+        group = GroupTask(
+            user=new_user,
+            name="group task new user"
+        )
+        group.save()
+        type_task = TypeTask(
+            group=group,
+            name="tarea nueva",
+            color="red"
+        )
+        type_task.save()
+        response = self.client.delete(reverse("delete_type_task",kwargs={"pk":type_task.pk}))
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
+    
+    def test_delete_type_task_un_authenticated(self):
+        type_task = TypeTask(
+            group=self.group,
+            name="type task",
+            color="red"
+        )
+        type_task.save()
+        self.client.force_authenticate(user=None)
+        response = self.client.delete(reverse("delete_type_task",kwargs={"pk":type_task.pk}))
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
