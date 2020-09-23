@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from Task.models import GroupTask,TypeTask
+from Task.models import GroupTask,TypeTask, Task
 
 class GroupTaskSerializer(serializers.ModelSerializer):
 
@@ -12,3 +12,8 @@ class TypeTaskSerializer(serializers.ModelSerializer):
         model = TypeTask
         fields = ['id', 'name', 'color']
         
+
+class TaskSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Task
+        fields = ['id', 'to_do']

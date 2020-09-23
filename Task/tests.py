@@ -219,4 +219,43 @@ class TypeTaskTestCase(APITestCase):
         self.client.force_authenticate(user=None)
         response = self.client.post(reverse("create_type_task",kwargs={"pk_group":self.group.pk}),data)
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
+
+    #DETAIL
+    def test_detail_type_task_authenticated(self):
+        group = TypeTask(
+            group=self.group,
+            name="group task"
+        )
+        group.save()
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":group.pk}))
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+
+    def test_detail_group_task_authenticated_not_found(self):
+        group = GroupTask(
+            user=self.user,
+            name="group task"
+        )
+        group.save()
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":0}))
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
+    
+    def test_detail_group_task_authenticated_not_have_permits(self):
+        new_user = User.objects.create_user(username="new_user", password="pass-123456")
+        group = GroupTask(
+            user=new_user,
+            name="group task new user"
+        )
+        group.save()
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":group.pk}))
+        self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
+    
+    def test_detail_group_task_un_authenticated(self):
+        group = GroupTask(
+            user=self.user,
+            name="group task"
+        )
+        group.save()
+        self.client.force_authenticate(user=None)
+        response = self.client.get(reverse("detail_group_task",kwargs={"pk":group.pk}))
+        self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
    
