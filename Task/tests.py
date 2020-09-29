@@ -490,22 +490,13 @@ class TaskTestCase(APITestCase):
         response = self.client.delete(reverse("delete_task",kwargs={"pk":task.pk}))
         self.assertEqual(response.status_code,status.HTTP_404_NOT_FOUND)
 
-"""
-
-    def test_update_task_un_authenticated(self):
+    def test_delete_task_un_authenticated(self):
         task = Task(
             group=self.group,
             type_task=self.type_task,
             to_do="first task create"
         )
         task.save()
-        data = {
-            "to_do":"first task update",
-        }
         self.client.force_authenticate(user=None)
-        response = self.client.put(reverse("update_task",kwargs={"pk":task.pk}),data)
+        response = self.client.delete(reverse("delete_task",kwargs={"pk":task.pk}))
         self.assertEqual(response.status_code,status.HTTP_401_UNAUTHORIZED)
-    """
-    
-    
-    
